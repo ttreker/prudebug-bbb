@@ -18,7 +18,9 @@ void printhelp()
 	printf("    Memory addresses can be wa=32-bit word address, ba=byte address.  Suffix of i=instruction or d=data memory\n");
 	printf("    Return without a command will rerun a previous d, dd, or di command while displaying the next block\n\n");
 
-	printf("    BR [breakpoint_number [address]]\n");
+	printf("    Note: Vertical bars designate command aliases: e.g. 'BR | B' signifies either BR or B as the command\n\n");
+
+	printf("    BR | B [breakpoint_number [address]]\n");
 	printf("    View or set an instruction breakpoint\n");
 	printf("       'b' by itself will display current breakpoints\n");
 	printf("       breakpoint_number is the breakpoint reference and ranges from 0 to %u\n", MAX_BREAKPOINTS - 1);
@@ -34,22 +36,22 @@ void printhelp()
 	printf("    DI memory_location_wa [length]\n");
 	printf("    Dump instruction memory (32-bit word offset from beginning of PRU instruction memory)\n\n");
 
-	printf("    DIS memory_location_wa [length]\n");
+	printf("    DIS | I  memory_location_wa [length]\n");
 	printf("    Disassemble instruction memory (32-bit word offset from beginning of PRU instruction memory)\n\n");
 
 	printf("    G\n");
 	printf("    Start processor execution of instructions (at current IP)\n\n");
 
-	printf("    GSS\n");
+	printf("    GSS | GS\n");
 	printf("    Start processor execution using automatic single stepping - this allows running a program with breakpoints\n\n");
 
-	printf("    HALT\n");
+	printf("    HALT | H\n");
 	printf("    Halt the processor\n\n");
 
 	printf("    L memory_location_iwa file_name\n");
 	printf("    Load program file into instruction memory at 32-bit word address provided (offset from beginning of instruction memory\n\n");
 
-	printf("    PRU pru_number\n");
+	printf("    PRU | P pru_number\n");
 	printf("    Set the active PRU where pru_number ranges from 0 to %u\n", NUM_OF_PRU - 1);
 	printf("    Some debugger commands do action on active PRU (such as halt and reset)\n\n");
 
@@ -59,10 +61,10 @@ void printhelp()
 	printf("    R\n");
 	printf("    Display the current PRU registers.\n\n");
 
-	printf("    RESET\n");
+	printf("    RESET | T\n");
 	printf("    Reset the current PRU\n\n");
 
-	printf("    SS\n");
+	printf("    SS | S \n");
 	printf("    Single step the current instruction.\n\n");
 
 	printf("    WA [watch_num [address [value]]]\n");
@@ -93,20 +95,21 @@ void printhelp()
 void printhelpbrief()
 {
 	printf("Command help\n\n");
-	printf("    BR [breakpoint_number [address]] - View or set an instruction breakpoint\n");
+	printf("    Note: A vertical bar signifies an optional command alias\n\n");
+	printf("    BR | B [breakpoint_number [address]] - View or set an instruction breakpoint\n");
 	printf("    D memory_location_wa [length] - Raw dump of PRU data memory (32-bit word offset from beginning of full PRU memory block - all PRUs)\n");
 	printf("    DD memory_location_wa [length] - Dump data memory (32-bit word offset from beginning of PRU data memory)\n");
 	printf("    DI memory_location_wa [length] - Dump instruction memory (32-bit word offset from beginning of PRU instruction memory)\n");
-	printf("    DIS memory_location_wa [length] - Disassemble instruction memory (32-bit word offset from beginning of PRU instruction memory)\n");
+	printf("    DIS | I memory_location_wa [length] - Disassemble instruction memory (32-bit word offset from beginning of PRU instruction memory)\n");
 	printf("    G - Start processor execution of instructions (at current IP)\n");
-	printf("    GSS - Start processor execution using automatic single stepping - this allows running a program with breakpoints\n");
-	printf("    HALT - Halt the processor\n");
+	printf("    GSS | GS - Start processor execution using automatic single stepping - this allows running a program with breakpoints\n");
+	printf("    HALT | H - Halt the processor\n");
 	printf("    L memory_location_iwa file_name - Load program file into instruction memory\n");
-	printf("    PRU pru_number - Set the active PRU where pru_number ranges from 0 to %u\n", NUM_OF_PRU - 1);
+	printf("    PRU | P pru_number - Set the active PRU where pru_number ranges from 0 to %u\n", NUM_OF_PRU - 1);
 	printf("    Q - Quit the debugger and return to shell prompt.\n");
 	printf("    R - Display the current PRU registers.\n");
-	printf("    RESET - Reset the current PRU\n");
-	printf("    SS - Single step the current instruction.\n");
+	printf("    RESET | T - Reset the current PRU\n");
+	printf("    SS | S - Single step the current instruction.\n");
 	printf("    WA [watch_num [address [value]]] - Clear or set a watch point\n");
 	printf("    WR memory_location_wa value1 [value2 [value3 ...]] - Write a 32-bit value to a raw (offset from beginning of full PRU memory block)\n");
 	printf("    WRD memory_location_wa value1 [value2 [value3 ...]] - Write a 32-bit value to PRU data memory for current PRU\n");

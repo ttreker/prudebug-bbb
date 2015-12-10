@@ -281,13 +281,6 @@ int main(int argc, char *argv[])
 	}
 	printf("\n");
 
-	// setup the terminal for more flexible IO
-	ioctl(0,TCGETS,&oldT);
-	newT=oldT;
-	newT.c_lflag &= ~ECHO;
-	newT.c_lflag &= ~ICANON;
-	ioctl(0,TCSETS,&newT);
-
 
 	// Command prompt handler
 	do {
@@ -306,7 +299,7 @@ int main(int argc, char *argv[])
 			printhelpbrief();			
 		}
 
-		else if (!strcmp(cmd, "BR")) {					// BR - Breakpoint command
+		else if (!strcmp(cmd, "BR") || !strcmp(cmd, "B")) {					// BR - Breakpoint command
 			last_cmd = LAST_CMD_NONE;
 			if (numargs == 0) {
 				cmd_print_breakpoints();
@@ -328,9 +321,9 @@ int main(int argc, char *argv[])
 			} else {
 				printf("ERROR: invalid breakpoint command\n");
 			}
-		}
+		} 
 
-		else if ((!strcmp(cmd, "D")) || (!strcmp(cmd, "DD")) || (!strcmp(cmd, "DI"))) {	// D - Dump command
+    else if ((!strcmp(cmd, "D")) || (!strcmp(cmd, "DD")) || (!strcmp(cmd, "DI"))) {	// D - Dump command
 			if (numargs > 2) {
 				printf("ERROR: too many arguments\n");
 			} else {
@@ -368,7 +361,7 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		else if (!strcmp(cmd, "DIS")) {						// DIS - disassemble command
+		else if (!strcmp(cmd, "DIS") || !strcmp(cmd, "I")) {						// DIS - disassemble command
 			if (numargs > 2) {
 				printf("ERROR: too many arguments\n");
 			} else {
@@ -416,7 +409,8 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		else if (!strcmp(cmd, "GSS")) {					// GSS - Start program using single stepping to provde BP/Watch
+		else if (!strcmp(cmd, "GSS") || !strcmp(cmd, "GS")) {					// GSS - Start program using single stepping to provde BP/Watch
+//		else if (!strcmp(cmd, "GSS" || !strcmp(cmd, "GS"))) {					// GSS - Start program using single stepping to provde BP/Watch
 			last_cmd = LAST_CMD_NONE;
 			if (numargs > 0) {
 				printf("ERROR: too many arguments\n");
@@ -426,7 +420,7 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		else if (!strcmp(cmd, "HALT")) {					// HALT - Halt PRU
+		else if (!strcmp(cmd, "HALT") || !strcmp(cmd, "H")) {					// HALT - Halt PRU
 			last_cmd = LAST_CMD_NONE;
 			if (numargs > 0) {
 				printf("ERROR: too many arguments\n");
@@ -446,7 +440,7 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		else if (!strcmp(cmd, "PRU")) {					// PRU - Select the active PRU
+		else if (!strcmp(cmd, "PRU") || !strcmp(cmd, "P")) {					// PRU - Select the active PRU
 			last_cmd = LAST_CMD_NONE;
 			if (numargs != 1) {
 				printf("ERROR: incorrect number of arguments\n");
@@ -465,7 +459,7 @@ int main(int argc, char *argv[])
 			}
 		}		
 
-		else if (!strcmp(cmd, "RESET")) {					// RESET - Reset PRU
+		else if (!strcmp(cmd, "RESET") || !strcmp(cmd, "T")) {					// RESET - Reset PRU
 			last_cmd = LAST_CMD_NONE;
 			if (numargs > 0) {
 				printf("ERROR: too many arguments\n");
@@ -475,8 +469,7 @@ int main(int argc, char *argv[])
 				printf("\n");
 			}
 		}
-
-		else if (!strcmp(cmd, "SS")) {					// SS - Single step
+		else if (!strcmp(cmd, "SS") || !strcmp(cmd, "S")) {					// SS - Single step
 			last_cmd = LAST_CMD_SS;
 			if (numargs > 0) {
 				printf("ERROR: too many arguments\n");
@@ -570,9 +563,6 @@ int main(int argc, char *argv[])
 	} while (strcmp(cmd, "Q"));
 
 	printf("\nGoodbye.\n\n");
-
-	// restore terminal IO settings
-	ioctl(0,TCSETS,&oldT);
 
 	return 0;
 }
