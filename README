@@ -6,6 +6,9 @@ Prudebug BBB Version 0.30
 (C) Copyright 2015 by Christopher C. Mills:
     Modifications by Christopher C. Mills
 
+This program is distributed under the terms of the GNU General Public
+License v3 (GPLv3). A copy of this lisence is included with this archive.
+
 Prudebug-bbb (executable is prudbgb) is a lightweight debugger targeted at the
 Texas Instruments (TI) PRUSS-ICSS of the BeagleBone Black Rev. C. It is a fork
 of Steven Anderson's (Arctica Technologies) original debugger, prudebug, which
@@ -134,8 +137,23 @@ not, you'll need to modify prudbg.c and prudbg.h (see remarks near the beginning
 of prudbg.c).  If you do add to the list of processors, please send me the diff
 so I can add it into future releases.
 
+READLINE FUNCTIOALITY
+---------------------------------------------------------------------
+The readline library contains extensive functionality available to
+the user. The user can write macros and bind them to keys. This
+provides the possibility of the user configuring functionality
+through the readline .inputrc file in the user's home folder, without
+the necessity of addressing the C code. Note that it is possible to
+setup application specific initialization in .inputrc. Exploring
+this configuration and the user interaction with the readline
+command prompt is not covered in this help. Resources for learning
+how to configure readline can be found on the web or explicitly at
+this site:
+    
+    http://tiswww.case.edu/php/chet/readline/rluserman.html#SEC1
 
 COMMAND HELP
+---------------------------------------------------------------------
 There is a short (HB) and a long (HELP) command help available at the command
 prompt. The long help command output is shown below:
 
