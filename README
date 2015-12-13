@@ -89,16 +89,25 @@ Improvements:
 
 CONTRIBUTORS
 ---------------------------------------------------------------------
-Christian Joly   - bug fixes, and modifications to make prudebug work
+Christian Joly    - bug fixes, and modifications to make prudebug work
                    with PRUSSv2.
-Shoji Suzuki     - bug fixes for v0.25
-RK Radhakrishnan - design and patches
+Shoji Suzuki      - bug fixes for v0.25
+Ram Radhakrishnan - design and patches
 
 
 INSTALLATION
 ---------------------------------------------------------------------
-To build just run make in the source code directory. The makefile is
-setup for compilation on the BBB using gcc.  The binary is called prudbgb.
+This program requires the header files for the readline library.
+These are likely not installed by default. To install these under
+Debian Wheezy on the BeagleBone Black type the following command:
+
+   sudo apt-get install libreadline-dev
+
+To then build just run make in the source code directory. The makefile is
+setup for compilation on the BBB using gcc.  The binary file is
+called prudbgb. To run it type the following:
+
+   sudo ./prudbgb
 
 
 USAGE
