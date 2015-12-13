@@ -144,11 +144,15 @@ int main(int argc, char *argv[])
 	char			uio_dev_file[50];
 
 	// say hello
+	printf ("\n");
 	printf ("PRU Debugger BBB v0.30\n");
 	printf ("(C) Copyright 2011, 2013 by Arctica Technologies.  All rights reserved.\n");
 	printf ("(C) Copyright 2015 by Christopher C. Mills.  All rights reserved.\n");
 	printf ("Written by Steven Anderson\n");
 	printf ("Modified by Christopher C. Mills\n");
+	printf ("This program comes with ABSOLUTELY NO WARRENTY\n");
+	printf ("This program is free software and is licensed under\n");
+	printf ("the GNU General Public License V3\n");
 	printf ("\n");
 
 	// get command line options
