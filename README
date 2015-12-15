@@ -137,18 +137,26 @@ not, you'll need to modify prudbg.c and prudbg.h (see remarks near the beginning
 of prudbg.c).  If you do add to the list of processors, please send me the diff
 so I can add it into future releases.
 
-READLINE FUNCTIOALITY
+READLINE FUNCTIONALITY
 ---------------------------------------------------------------------
 The readline library contains extensive functionality available to
-the user. The user can write macros and bind them to keys. This
+the user. This is the same functionality available at the Bash
+prompt. Some available commands:
+
+   - <up arrow>/<down arrow> provides access to previous commands.
+   - <CTRL-R> allows searching for previous commands
+
+Additionally, the user can write macros and bind them to keys. This
 provides the possibility of the user configuring functionality
 through the readline .inputrc file in the user's home folder, without
-the necessity of addressing the C code. Note that it is possible to
-setup application specific initialization in .inputrc. Exploring
-this configuration and the user interaction with the readline
-command prompt is not covered in this help. Resources for learning
-how to configure readline can be found on the web or explicitly at
-this site:
+the necessity of addressing the C code. Note that .inputrc allows
+for setting up application specific initialization, allowing you to
+configure behavior that is only available in prudbgb, but that
+won't alter the behavior of the Bash prompt or other programs.
+Exploring this configuration and the user interaction with the
+readline command prompt is not covered in this help. Resources
+for learning how to configure and use readline can be found by 
+searching the web or directly at this site:
     
     http://tiswww.case.edu/php/chet/readline/rluserman.html#SEC1
 
