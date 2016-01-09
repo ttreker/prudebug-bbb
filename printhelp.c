@@ -25,8 +25,14 @@ void printhelp()
 	printf("      displaying the next block\n");
 	printf("    - Return without a command will rerun a previous SS\n\n");
 
-	printf("    Note: Vertical bars designate command aliases: e.g. 'BR | B' signifies\n");
-	printf("          either BR or B as the command\n\n");
+	printf("    Note 1: Addresses, whether absolute, relative, or offsets, are all indexed\n");
+	printf("            by 32 bit words, and not bytes. This means that addresses, lengths,\n");
+	printf("            and offets taken from the Texas Instruments documentation need\n");
+	printf("            to by divided by 4 (shifted right 2 bits) when used in all memory\n");
+	printf("            commands below\n\n");
+
+	printf("    Note 2: Vertical bars designate command aliases: e.g. 'BR | B' signifies\n");
+	printf("            either BR or B as the command\n\n");
 
 	printf("    BR | B [breakpoint_number [address]]\n");
 	printf("    View or set an instruction breakpoint\n");
@@ -36,20 +42,18 @@ void printhelp()
 	printf("         stop (instruction is not executed)\n");
 	printf("       - if no address is provided, then the breakpoint is cleared\n\n");
 
-	printf("    D memory_location_wa [length]\n");
-	printf("    Raw dump of PRU data memory (32-bit word offset from beginning of full PRU\n");
-	printf("    memory block - all PRUs)\n\n");
+	printf("    D memory_location [length]\n");
+	printf("    Global PRUSS memory map data dump (indexed by 32 bit words, not bytes)\n\n");
 
-	printf("    DD memory_location_wa [length]\n");
-	printf("    Dump data memory (32-bit word offset from beginning of PRU data memory)\n\n");
+	printf("    DD memory_location [length]\n");
+	printf("    Global memory map data dump starting at current PRU's local data RAM\n");
+	printf("    (indexed by 32 bit words, not bytes)\n\n");
 
-	printf("    DI memory_location_wa [length]\n");
-	printf("    Dump instruction memory (32-bit word offset from beginning of PRU\n");
-	printf("    instruction memory)\n\n");
+	printf("    DI memory_location [length]\n");
+	printf("    Dump instruction memory for current PRU (indexed by 32 bit words, not bytes)\n\n");
 
-	printf("    DIS | I  memory_location_wa [length]\n");
-	printf("    Disassemble instruction memory (32-bit word offset from beginning of\n");
-	printf("    PRU instruction memory)\n\n");
+	printf("    DIS | I  memory_location [length]\n");
+	printf("    Disassemble instruction memory of current PRU (indexed by 32 bit words, not bytes)\n\n");
 
 	printf("    G\n");
 	printf("    Start processor execution of instructions (at current IP)\n\n");
@@ -61,7 +65,7 @@ void printhelp()
 	printf("    HALT | H\n");
 	printf("    Halt the processor\n\n");
 
-	printf("    L memory_location_iwa file_name\n");
+	printf("    L memory_location file_name\n");
 	printf("    Load program file into instruction memory at 32-bit word address provided\n");
 	printf("    (offset from beginning of instruction memory)\n\n");
 
@@ -94,19 +98,20 @@ void printhelp()
 	printf("      NOTE: for watchpoints to work, you must use gss command to run the\n");
 	printf("            program\n\n");
 
-	printf("    WR memory_location_wa value1 [value2 [value3 ...]]\n");
-	printf("    Write a 32-bit value to a raw (offset from beginning of full PRU memory\n");
-	printf("    block - all PRUs). Memory_location is a 32-bit word index from the\n");
-	printf("    beginning of the PRU subsystem memory block\n\n");
+	printf("    WR memory_location value1 [value2 [value3 ...]]\n");
+	printf("    Write 32-bit values starting at a PRUSS memory location in its\n");
+	printf("    global memory map. Memory_location is a 32-bit word index, not\n");
+	printf("    a byte index\n\n");
 
-	printf("    WRD memory_location_wa value1 [value2 [value3 ...]]\n");
-	printf("    Write a 32-bit value to PRU data memory (32-bit word offset from beginning\n");
-	printf("    of PRU data memory)\n\n");
+	printf("    WRD memory_location value1 [value2 [value3 ...]]\n");
+	printf("    Write 32-bit values in the current PRU's data memory\n");
+	printf("    Memory_location is a 32-bit word index, not a byte index, starting\n");
+	printf("    at the beginning of the current PRU's data memory.\n\n");
 
-	printf("    WRI memory_location_wa value1 [value2 [value3 ...]]\n");
-	printf("    Write a 32-bit value to PRU instruction memory (32-bit word offset from\n");
-	printf("    beginning of PRU instruction memory)\n\n");
-
+	printf("    WRI memory_location value1 [value2 [value3 ...]]\n");
+	printf("    Write 32-bit values in the current PRU's instruction memory\n");
+	printf("    Memory_location is a 32-bit word index, not a byte index, starting\n");
+	printf("    at the beginning of the current PRU's instruction memory.\n\n");
 
 	printf("\n");
 }
@@ -116,23 +121,23 @@ void printhelpbrief()
 	printf("Command help\n\n");
 	printf("    Note: A vertical bar signifies an optional command alias\n\n");
 	printf("    BR | B [breakpoint_number [address]] - View or set an instruction breakpoint\n");
-	printf("    D memory_location_wa [length] - Raw dump of PRU data memory (32-bit word offset from beginning of full PRU memory block - all PRUs)\n");
-	printf("    DD memory_location_wa [length] - Dump data memory (32-bit word offset from beginning of PRU data memory)\n");
-	printf("    DI memory_location_wa [length] - Dump instruction memory (32-bit word offset from beginning of PRU instruction memory)\n");
-	printf("    DIS | I memory_location_wa [length] - Disassemble instruction memory (32-bit word offset from beginning of PRU instruction memory)\n");
+	printf("    D memory_location [length] - Global PRUSS memory map data dump (indexed by 32 bit words, not bytes)\n");
+	printf("    DD memory_location [length] - Current PRU's data RAM dump (indexed by 32 bit words, not bytes)\n");
+	printf("    DI memory_location [length] - Current PRU's instruction RAM dump (indexed by 32 bit words, not bytes)\n");
+	printf("    DIS | I memory_location [length] - Disassemble instruction memory (32-bit word offset from beginning of PRU instruction memory)\n");
 	printf("    G - Start processor execution of instructions (at current IP)\n");
 	printf("    GSS | GS - Start processor execution using automatic single stepping - this allows running a program with breakpoints\n");
 	printf("    HALT | H - Halt the processor\n");
-	printf("    L memory_location_iwa file_name - Load program file into instruction memory\n");
+	printf("    L memory_location file_name - Load program file into instruction memory\n");
 	printf("    PRU | P pru_number - Set the active PRU where pru_number ranges from 0 to %u\n", NUM_OF_PRU - 1);
 	printf("    Q - Quit the debugger and return to shell prompt.\n");
 	printf("    R - Display the current PRU registers.\n");
 	printf("    RESET | T - Reset the current PRU\n");
 	printf("    SS | S - Single step the current instruction.\n");
 	printf("    WA [watch_num [address [value]]] - Clear or set a watch point\n");
-	printf("    WR memory_location_wa value1 [value2 [value3 ...]] - Write a 32-bit value to a raw (offset from beginning of full PRU memory block)\n");
-	printf("    WRD memory_location_wa value1 [value2 [value3 ...]] - Write a 32-bit value to PRU data memory for current PRU\n");
-	printf("    WRI memory_location_wa value1 [value2 [value3 ...]] - Write a 32-bit value to PRU instruction memory for current PRU\n");
+	printf("    WR memory_location value1 [value2 [value3 ...]] - Write 32-bit values to PRUSS Global Memory (indexed by 32 bit words, not bytes)\n");
+	printf("    WRD memory_location value1 [value2 [value3 ...]] - Write 32-bit values to current PRU's data memory (indexed by 32 bit words, not bytes)\n");
+	printf("    WRI memory_location value1 [value2 [value3 ...]] - Write 32-bit values to current PRU's instruction memory (indexed by 32 bit words, not bytes)\n");
 
 	printf("\n");
 }

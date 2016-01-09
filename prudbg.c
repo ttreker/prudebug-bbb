@@ -219,7 +219,7 @@ int main(int argc, char *argv[])
 			// there is a valid UIO/PRUSS file so open it and use the pointer
 			fd = open (uio_dev_file, O_RDWR | O_SYNC);
 			if (fd == -1) {
-				printf ("ERROR: could not open /dev/mem.\n\n");
+				printf ("ERROR: could not open %s.\n\n", uio_dev_file);
 				return 1;
 			}
 			pru = mmap (0, pdb[pi].pruss_len, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
