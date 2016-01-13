@@ -115,7 +115,7 @@ called prudbgb. To run it type the following:
 
 USAGE
 ---------------------------------------------------------------------
-Usage: prudebug [-a pruss-address] [-u] [-m] [-p processor]
+Usage: prudbgb [-a pruss-address] [-u] [-m] [-p processor]
     -a - pruss-address is the memory address of the PRU in ARM memory space
     -u - force the use of UIO to map PRU memory space
     -m - force the use of /dev/mem to map PRU memory space
@@ -124,12 +124,12 @@ Usage: prudebug [-a pruss-address] [-u] [-m] [-p processor]
         AM1707 - AM1707
         AM335X - AM335x
 
-Generally the -a option should not be used.  If it is used, then prudebug will
+Generally the -a option should not be used.  If it is used, then prudbgb will
 use the -a address for the PRU base with the selected processor as the various
 PRU subsystem offsets.  -u and -m control the way the PRU base address is mapped
 for program access (either the /dev/mem or /dev/uio* device).  If -u or -m are
 selected then it will only used the selected method or fail.  If neither the -u
-or -m are selected then prudebug will try to use the UIO device driver, and if
+or -m are selected then prudbgb will try to use the UIO device driver, and if
 that fails then it will use /dev/mem.  The -p option allows you to select the
 processor.  If your processor is not listed then determine if one of the listed
 processors has compatible PRU (same base address and PRU subsystem offsets).  If
@@ -206,8 +206,13 @@ Command help
     DI memory_location [length]
     Dump instruction memory for current PRU (indexed by 32 bit words, not bytes)
 
-    DIS | I  memory_location [length]
+    DIS | II  memory_location [length]
     Disassemble instruction memory of current PRU (indexed by 32 bit words, not bytes)
+
+    DISIP | I  [inst_cnt_prior [inst_cnt_after]]
+    Disassemble instruction memory of current PRU around the instruction pointer(IP).
+    inst_cnt_prior is number of instructions to display preceding the IP.
+    inst_cnt_after is number of instructions to display after the IP.
 
     G
     Start processor execution of instructions (at current IP)
@@ -266,3 +271,4 @@ Command help
     Write 32-bit values in the current PRU's instruction memory
     Memory_location is a 32-bit word index, not a byte index, starting
     at the beginning of the current PRU's instruction memory.
+

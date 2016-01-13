@@ -52,8 +52,13 @@ void printhelp()
 	printf("    DI memory_location [length]\n");
 	printf("    Dump instruction memory for current PRU (indexed by 32 bit words, not bytes)\n\n");
 
-	printf("    DIS | I  memory_location [length]\n");
+	printf("    DIS | II  memory_location [length]\n");
 	printf("    Disassemble instruction memory of current PRU (indexed by 32 bit words, not bytes)\n\n");
+
+	printf("    DISIP | I  [inst_cnt_prior [inst_cnt_after]]\n");
+	printf("    Disassemble instruction memory of current PRU around the instruction pointer(IP).\n");
+	printf("    inst_cnt_prior is number of instructions to display preceding the IP.\n");
+	printf("    inst_cnt_after is number of instructions to display after the IP.\n\n");
 
 	printf("    G\n");
 	printf("    Start processor execution of instructions (at current IP)\n\n");
@@ -124,7 +129,8 @@ void printhelpbrief()
 	printf("    D memory_location [length] - Global PRUSS memory map data dump (indexed by 32 bit words, not bytes)\n");
 	printf("    DD memory_location [length] - Current PRU's data RAM dump (indexed by 32 bit words, not bytes)\n");
 	printf("    DI memory_location [length] - Current PRU's instruction RAM dump (indexed by 32 bit words, not bytes)\n");
-	printf("    DIS | I memory_location [length] - Disassemble instruction memory (32-bit word offset from beginning of PRU instruction memory)\n");
+	printf("    DIS | II [memory_location [length]] - Disassemble instruction memory (32-bit word offset from beginning of PRU instruction memory)\n");
+	printf("    DISIP | I [inst_cnt_prior [inst_cnt_after]] - Disassemble instruction memory around instruction pointer\n");
 	printf("    G - Start processor execution of instructions (at current IP)\n");
 	printf("    GSS | GS - Start processor execution using automatic single stepping - this allows running a program with breakpoints\n");
 	printf("    HALT | H - Halt the processor\n");

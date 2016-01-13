@@ -367,7 +367,7 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		else if (!strcmp(cmd, "DIS") || !strcmp(cmd, "I")) {						// DIS - disassemble command
+		else if (!strcmp(cmd, "DIS") || !strcmp(cmd, "II")) {						// DIS - disassemble command
 			if (numargs > 2) {
 				printf("ERROR: too many arguments\n");
 			} else {
@@ -380,6 +380,39 @@ int main(int argc, char *argv[])
 				} else {
 					addr = strtol(&cmdargs[argptrs[0]], NULL, 0);
 					len = 16;
+				}
+				if ((addr < 0) || (addr > MAX_PRU_MEM - 1) || (len < 0) || (addr+len > MAX_PRU_MEM)) {
+					printf("ERROR: arguments out of range.\n");
+				} else if (numargs > 2) {
+					printf("ERROR: Incorrect format.  Please use help command to get command details.\n");
+				} else {
+					offset = pru_inst_base[pru_num];
+					last_cmd = LAST_CMD_DIS;
+
+					last_offset = offset;
+					last_addr = addr + len;
+					last_len = len;
+					printf ("Absolute addr = 0x%04x, offset = 0x%04x, Len = %u\n", addr + offset, addr, len);
+					cmd_dis(offset, addr, len);
+				}
+			}
+		}
+
+		else if (!strcmp(cmd, "DISIP") || !strcmp(cmd, "I")) {						// DISIP - disassemble at IP command
+			if (numargs > 2) {
+				printf("ERROR: too many arguments\n");
+			} else {
+        unsigned int instPtr, ipAddr, precdInst;
+	      instPtr = pru[pru_ctrl_base[pru_num] + PRU_STATUS_REG] & 0xFFFF;
+				if (numargs == 2) {
+					addr = instPtr - (precdInst = strtol(&cmdargs[argptrs[0]], NULL, 0));
+					len = strtol(&cmdargs[argptrs[1]], NULL, 0) + precdInst;
+				} else if (numargs == 0) {
+					addr = instPtr - 11;
+					len = 22;
+				} else {
+					addr = instPtr - strtol(&cmdargs[argptrs[0]], NULL, 0);
+					len = 22;
 				}
 				if ((addr < 0) || (addr > MAX_PRU_MEM - 1) || (len < 0) || (addr+len > MAX_PRU_MEM)) {
 					printf("ERROR: arguments out of range.\n");
