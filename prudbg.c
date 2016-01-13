@@ -402,16 +402,22 @@ int main(int argc, char *argv[])
 			if (numargs > 2) {
 				printf("ERROR: too many arguments\n");
 			} else {
-        unsigned int instPtr, ipAddr, precdInst;
+        int instPtr, precdInst;
 	      instPtr = pru[pru_ctrl_base[pru_num] + PRU_STATUS_REG] & 0xFFFF;
 				if (numargs == 2) {
 					addr = instPtr - (precdInst = strtol(&cmdargs[argptrs[0]], NULL, 0));
+          if ((int)addr < 0)
+            addr = 0;
 					len = strtol(&cmdargs[argptrs[1]], NULL, 0) + precdInst;
 				} else if (numargs == 0) {
 					addr = instPtr - 11;
+          if ((int)addr < 0)
+            addr = 0;
 					len = 22;
 				} else {
 					addr = instPtr - strtol(&cmdargs[argptrs[0]], NULL, 0);
+          if ((int)addr < 0)
+            addr = 0;
 					len = 22;
 				}
 				if ((addr < 0) || (addr > MAX_PRU_MEM - 1) || (len < 0) || (addr+len > MAX_PRU_MEM)) {
